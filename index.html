@@ -1,0 +1,144 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+      highcharts example
+    </title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+	</head>
+	
+
+	<script>
+	
+		
+$(function () {
+buttonC1.disabled = true;
+
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Example Stacked Bar'
+            },
+            xAxis: {
+                categories: ['Q1 2011', 'Q2 2011', 'Q3 2011', 'Q4 2011', 'Q1 2012', 'Q2 2012']
+            },
+			credits: {
+                enabled: false
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Flows $ Millions'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -100,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                        this.series.name +': '+ this.y +'<br/>'+
+                        'Total: '+ this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                    }
+                }
+            },
+             series: [{
+     name: 'C1 Series 1',
+	 color: 'rgb(0,154,61)',
+     data: [3, 4, 4, 2, 5,3]
+    }, {
+       name: 'C2 Series 2',
+	   color: 'rgb(0,121,193)',
+       data: [3, 4, 4, 2, 5,3]
+    }]
+        });
+
+	
+	// button handler 1
+		$('#buttonC1').click(function() {
+        var chart = $('#container').highcharts();
+		//remove series
+			while(chart.series.length > 0)
+    chart.series[0].remove(true);
+		//add in new series
+            chart.addSeries({
+              name: 'C1 Series 1',
+	 color: 'rgb(0,154,61)',
+                data: [3, 4, 4, 2, 5,3]
+            });
+			chart.addSeries({
+               name: 'C2 Series 2',
+	   color: 'rgb(0,121,193)',
+       data: [3, 4, 4, 2, 5,3]
+            });  
+			buttonC1.disabled = true;
+			buttonC2.disabled = false;
+			chart.redraw();
+		});
+	
+		// button handler 2
+		$('#buttonC2').click(function() {
+        var chart = $('#container').highcharts();
+		//remove series
+			while(chart.series.length > 0)
+    chart.series[0].remove(true);
+		//add in new series
+		
+            chart.addSeries({
+                name: 'C2 Series 1',
+				 color: 'rgb(108,32,126)',
+				 data: [7, 6, 3, 0, 2,5]
+            });
+			chart.addSeries({
+                name: 'C2 Series 2',
+				color: 'rgb(227,27,35)',
+				redraw: false,
+                data: [1, 1, 1, 4, 0,5]
+            });  
+			
+			buttonC1.disabled = false;
+			buttonC2.disabled = true;
+			chart.redraw();
+		});
+	
+   });
+	
+	</script>
+	
+	<div id="container" style="width:100%; height:400px;"></div>
+	<button id="buttonC1">Category 1</button>
+	<button id="buttonC2">Category 2</button>
+	
+	
+	
+	
+</html>
